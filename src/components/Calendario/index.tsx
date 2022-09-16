@@ -1,10 +1,12 @@
+import 'kalend/dist/styles/index.css'
 
-import React from 'react'
-import { IEvento } from '../../interfaces/IEvento';
-import style from './Calendario.module.scss';
-import ptBR from './localizacao/ptBR.json'
 import Kalend, { CalendarView } from 'kalend'
-import 'kalend/dist/styles/index.css';
+import React from 'react'
+import { useRecoilValue } from 'recoil'
+
+import { listaDeEventosState } from '../../state/atom'
+import style from './Calendario.module.scss'
+import ptBR from './localizacao/ptBR.json'
 
 interface IKalendEvento {
   id?: number
@@ -14,23 +16,25 @@ interface IKalendEvento {
   color: string
 }
 
-const Calendario: React.FC<{ eventos: IEvento[] }> = ({ eventos }) => {
+const Calendario: React.FC = () => {
+  const eventosKalend = new Map<string, IKalendEvento[]>()
+  const eventos = useRecoilValue(listaDeEventosState)
 
-  const eventosKalend = new Map<string, IKalendEvento[]>();
-
-  eventos.forEach(evento => {
+  eventos.forEach((evento) => {
     const chave = evento.inicio.toISOString().slice(0, 10)
     if (!eventosKalend.has(chave)) {
       eventosKalend.set(chave, [])
     }
+
     eventosKalend.get(chave)?.push({
       id: evento.id,
       startAt: evento.inicio.toISOString(),
       endAt: evento.fim.toISOString(),
       summary: evento.descricao,
-      color: 'blue'
+      color: 'blue',
     })
   })
+
   return (
     <div className={style.Container}>
       <Kalend
@@ -45,7 +49,7 @@ const Calendario: React.FC<{ eventos: IEvento[] }> = ({ eventos }) => {
         customLanguage={ptBR}
       />
     </div>
-  );
+  )
 }
 
 export default Calendario
