@@ -8,6 +8,7 @@ import style from './Formulario.module.scss'
 
 const Formulario: React.FC = () => {
   const setListaDeEventos = useSetRecoilState<IEvento[]>(listaDeEventosState)
+
   const [descricao, setDescricao] = useState('')
   const [dataInicio, setDataInicio] = useState('')
   const [horaInicio, setHoraInicio] = useState('')
@@ -28,7 +29,6 @@ const Formulario: React.FC = () => {
       fim: montarData(dataFim, horaFim),
       completo: false,
     }
-
     setListaDeEventos((listaAntiga) => [...listaAntiga, evento])
     setDescricao('')
     setDataInicio('')
@@ -36,7 +36,6 @@ const Formulario: React.FC = () => {
     setDataFim('')
     setHoraFim('')
   }
-
   return (
     <form className={style.Formulario} onSubmit={submeterForm}>
       <h3 className={style.titulo}>Novo evento</h3>
@@ -64,7 +63,6 @@ const Formulario: React.FC = () => {
           value={dataInicio}
           required
         />
-
         <input
           type="time"
           name="horaInicio"
@@ -85,7 +83,6 @@ const Formulario: React.FC = () => {
           value={dataFim}
           required
         />
-
         <input
           type="time"
           name="horaFim"
