@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { RecoilRoot } from 'recoil'
 
 import style from './App.module.scss'
@@ -9,20 +10,22 @@ import ListaDeEventos from './components/ListaDeEventos'
 function App() {
   return (
     <RecoilRoot>
-      <div className={style.App}>
-        <div className={style.Coluna}>
-          <Card>
-            <Formulario />
-          </Card>
-          <hr />
-          <Card>
-            <ListaDeEventos />
-          </Card>
+      <Suspense fallback="Está carregando">
+        <div className={style.App}>
+          <div className={style.Coluna}>
+            <Card>
+              <Formulario />
+            </Card>
+            <hr />
+            <Card>
+              <ListaDeEventos />
+            </Card>
+          </div>
+          <div className={style.Coluna}>
+            <Calendario />
+          </div>
         </div>
-        <div className={style.Coluna}>
-          <Calendario />
-        </div>
-      </div>
+      </Suspense>
     </RecoilRoot>
   )
 }
